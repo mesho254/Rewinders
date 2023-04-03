@@ -1,0 +1,62 @@
+.pictures {
+    width: 90vw;
+    height: 90vh;
+    margin-left: 50px;
+    object-fit: cover;
+    cursor: pointer;
+  }
+  .image{
+    height: 100%;
+    width: 100%;
+    gap: 10px 10px;
+    border-radius: 12px;
+    padding: 10px 8px;
+    
+  }
+  .btn .btn1{
+    background-color: #a70808;
+    color: white;
+    padding: 10px 15px;
+    border: none;
+    cursor: pointer;
+    width: 100px;
+    font-size: 16px;
+    position: absolute;
+   margin-top: -1px;
+  }
+
+  .btn .btn2{
+    background-color: #008CBA;
+    color: white;
+    padding: 12px 20px;
+    border: none;
+    cursor: pointer;
+    width: 100px;
+    position: relative;
+    top: -400px;
+  }
+
+  .btn .btn3{
+    background-color: #008CBA;
+    color: white;
+    padding: 12px 20px;
+    border: none;
+    cursor: pointer;
+    width: 100px;
+    position: relative;
+    left: 1150px;
+    top: -450px;
+   
+  }
+
+  .btn .words{
+  position: relative;
+  top: -400px;
+  }
+  
+  .image1{
+    border-radius: 12px;
+    padding: 10px 8px;
+    object-fit: cover;
+
+  }
