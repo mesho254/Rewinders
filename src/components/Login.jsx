@@ -1,64 +1,82 @@
-import React, { useRef, useState } from "react"
-import { Form, Button, Card, Alert} from "react-bootstrap"
-import { useAuth } from "../context/AuthContext"
-import Spinner from "./spinner"
-import { useNavigate, Link } from "react-router-dom"
-import "../App.css";
+import React, { useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import { TextField, Button, Typography, Container, IconButton } from '@mui/material';
+import Spinner from '../components/spinner';
+import Visibility from '@mui/icons-material/Visibility';
+import VisibilityOff from '@mui/icons-material/VisibilityOff';
 
-export default function Signup() {
-  const emailRef = useRef()
-  const passwordRef = useRef()
-  const { login } = useAuth()
-  const [error, setError] = useState("")
-  const [loading, setLoading] = useState(false)
-  const navigate = useNavigate()
+import { useAuth } from '../context/AuthContext';
 
-  async function handleSubmit(e) {
-    e.preventDefault()
+const Login = () => {
+    const { login, loading } = useAuth(); // Access the login function from the hook
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+    const [showPassword, setShowPassword] = useState(false);
+    const history = useNavigate()
+  
+    const togglePasswordVisibility = () => {
+      setShowPassword(!showPassword);
+    };
 
+    const handleLogin = async (e) => {
+      e.preventDefault();
+      try {
+        await login(email, password); // Use the login function
+        history('/')
+      } catch (error) {
+        console.error(error.message);
+      }
+    };
+    return loading ? (
+      <Spinner/>
+    ) :( 
+    <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '100vh' }}>
+      <Container maxWidth="xs" style={{ margin: '20px' , border:'1px solid', padding: '30px', borderRadius: '6px'}}>
+        <Typography variant="h3">Login Here</Typography>
+        <form>
+          <TextField
+            type="email"
+            label="Email"
+            fullWidth
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            margin="normal"
+            required
+          />
+          <TextField
+            type={showPassword ? 'text' : 'password'} 
+            label="Password"
+            fullWidth
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            margin="normal"
+            required
+            InputProps={{
+              endAdornment: (
+                <IconButton
+                  onClick={togglePasswordVisibility}
+                  edge="end"
+                >
+                  {showPassword ? <Visibility /> : <VisibilityOff />}
+                </IconButton>
+              ),
+            }}
+          />
+          <Button
+            variant="contained"
+            color="primary"
+            onClick={handleLogin}
+            fullWidth
+            style={{ marginTop: '16px' }}
+          >
+            Login
+          </Button>
+        </form>
+        <Link to="/reset-password" style={{marginTop:'25px'}}>Forgot Password?</Link><br/>
+        <Link to="/signup" style={{marginTop:'25px'}}>Don't have an account? Create Here</Link>
+      </Container>
+    </div>
+  );
+};
 
-    try {
-      setError("")
-      setLoading(true)
-      await login(emailRef.current.value, passwordRef.current.value)
-      navigate("/")
-    } catch(error) {
-      setError(error.message)
-      console.log(error)
-      
-    }
-
-    setLoading(false)
-  }
-
-  return loading ? (
-    <Spinner/>
-  ):(
-
-    <div className="Container">
-      <Card>
-        <Card.Body className="card">
-          <h2 className="Head">Sign In</h2>
-          {error && <Alert variant="danger">{error}</Alert>}
-          <Form onSubmit={handleSubmit}>
-            <Form.Group id="email">
-              <Form.Label>Email</Form.Label>
-              <Form.Control type="email" className="input" placeholder="example@gmail.com" ref={emailRef} required />
-            </Form.Group>
-            <Form.Group id="password">
-              <Form.Label>Password</Form.Label>
-              <Form.Control type="password" className="input" placeholder="********" ref={passwordRef} required />
-            </Form.Group>
-            <Button className="Btn" type="submit">
-              Sign In
-            </Button>
-          </Form>
-        </Card.Body>
-      </Card>
-      <div className="links">
-        <Link to="/Signup">Create New Account</Link>
-        Forgot your Password? <Link to="">click here</Link>
-      </div>
-     </div>
-  )
-}
+export default Login;

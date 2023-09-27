@@ -6,8 +6,8 @@ import Home from './pages/Home';
 import {Routes,Route} from 'react-router-dom'
 import UpdateEmail from './components/UpdateEmail';
 import ProtectedRoute from './hooks/protectedRoute';
-import Navigation from './components/Navigation';
 import  Profile  from './pages/Profile';
+import Page404 from './hooks/Page404'
 
  function App() {
   return ( 
@@ -18,11 +18,10 @@ import  Profile  from './pages/Profile';
         
         <Route  path='/signup' element={<Signup />} />
         <Route path="/login" element={<Login/>}/>
-        <Route  path='/navbar' element={<Navigation />} />
-        <Route path="/update" element={<UpdateEmail />}/>
+        <Route path="/update" element={<ProtectedRoute><UpdateEmail /></ProtectedRoute>}/>
         <Route path='/profile' element={<ProtectedRoute><Profile/></ProtectedRoute>}/>
 
-        <Route path='*' element={<div>Not Found</div>} />
+        <Route path='*' element={<Page404/>} />
         
       </Routes>       
     </AuthProvider>
