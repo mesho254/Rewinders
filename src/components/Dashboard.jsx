@@ -1,8 +1,6 @@
 import React from 'react';
-import  Spinner  from './spinner.jsx';
 import { Slide } from 'react-slideshow-image';
 import 'react-slideshow-image/dist/styles.css';
-import { useAuth } from "../context/AuthContext"
 import IstockImage1 from '../assets/images/istockphoto-527614583-1024x1024.jpg'
 import IstockImage2 from '../assets/images/istockphoto-471204065-1024x1024.jpg'
 import IstockImage3 from '../assets/images/istockphoto-959141970-1024x1024.jpg'
@@ -27,18 +25,14 @@ let pictures = [
  ];
 
 export default function Dashboard() {    
-    const {currentUser, loading} = useAuth();
     const imageStyle = {
       maxWidth: '95vw', // Ensure the image doesn't exceed its container's width
       maxHeight: '70vh', // Ensure the image doesn't exceed its container's height
       borderRadius:'13px',
       marginTop: '20px',
     };
-     console.log(currentUser)
 
-     return  loading ? (
-      <div><Spinner/></div>
-    ) : (
+     return (
       <div>
         <ResponsiveAppBar/>
         <Slide

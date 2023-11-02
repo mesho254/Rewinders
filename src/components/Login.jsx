@@ -1,81 +1,82 @@
 import React, { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import { TextField, Button, Typography, Container, IconButton } from '@mui/material';
-import Spinner from '../components/spinner';
-import Visibility from '@mui/icons-material/Visibility';
-import VisibilityOff from '@mui/icons-material/VisibilityOff';
-
-import { useAuth } from '../context/AuthContext';
+import { TextField, Button, Grid, Paper, Typography } from '@mui/material';
+import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
+import {jwtDecode} from 'jwt-decode';
 
 const Login = () => {
-    const { login, loading } = useAuth(); // Access the login function from the hook
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
-    const [showPassword, setShowPassword] = useState(false);
-    const history = useNavigate()
-  
-    const togglePasswordVisibility = () => {
-      setShowPassword(!showPassword);
-    };
+  const history = useNavigate();
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
 
-    const handleLogin = async (e) => {
-      e.preventDefault();
-      try {
-        await login(email, password); // Use the login function
-        history('/')
-      } catch (error) {
-        console.error(error.message);
+  const handleLogin = async () => {
+    try {
+      // Send a POST request to your authentication endpoint (e.g., /auth/login)
+      const response = await axios.post('http://localhost:5000/api/user/login', {
+        email,
+        password,
+      });
+  
+      const { token } = response.data;
+  
+      // Decode the JWT token to get user role
+      const decodedToken = jwtDecode(token);
+  
+      if (decodedToken.role === 'rewinder') {
+        // Redirect to the home page for drivers
+        history('/');
+      } else if (decodedToken.role === 'admin') {
+        // Redirect to the admin dashboard
+        history('/admin-dashboard');
       }
-    };
-    return loading ? (
-      <Spinner/>
-    ) :( 
-    <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '100vh' }}>
-      <Container maxWidth="xs" style={{ margin: '20px' , border:'1px solid', padding: '30px', borderRadius: '6px'}}>
-        <Typography variant="h3">Login Here</Typography>
-        <form>
-          <TextField
-            type="email"
-            label="Email"
-            fullWidth
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            margin="normal"
-            required
-          />
-          <TextField
-            type={showPassword ? 'text' : 'password'} 
-            label="Password"
-            fullWidth
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            margin="normal"
-            required
-            InputProps={{
-              endAdornment: (
-                <IconButton
-                  onClick={togglePasswordVisibility}
-                  edge="end"
-                >
-                  {showPassword ? <Visibility /> : <VisibilityOff />}
-                </IconButton>
-              ),
-            }}
-          />
-          <Button
-            variant="contained"
-            color="primary"
-            onClick={handleLogin}
-            fullWidth
-            style={{ marginTop: '16px' }}
-          >
+  
+      // Store the token, email, and role in localStorage
+      localStorage.setItem('token', token);
+      localStorage.setItem('email', email);
+      localStorage.setItem('role', decodedToken.role);
+    } catch (error) {
+      console.error(error);
+      // Handle login error (e.g., display an error message)
+    }
+  };
+  return (
+    <Grid container justifyContent="center" alignItems="center" style={{ height: '100vh' }}>
+      <Grid item xs={10} sm={6} md={4}>
+        <Paper elevation={3} style={{ padding: '20px', textAlign: 'center' }}>
+          <Typography variant="h5" gutterBottom>
             Login
-          </Button>
-        </form>
-        <Link to="/reset-password" style={{marginTop:'25px'}}>Forgot Password?</Link><br/>
-        <Link to="/signup" style={{marginTop:'25px'}}>Don't have an account? Create Here</Link>
-      </Container>
-    </div>
+          </Typography>
+          <form>
+            <TextField
+              label="Email"
+              fullWidth
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              margin="normal"
+              required
+            />
+            <TextField
+              label="Password"
+              fullWidth
+              type="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              margin="normal"
+              required
+            />
+            <Button
+              variant="contained"
+              color="primary"
+              fullWidth
+              onClick={handleLogin}
+              style={{ marginTop: '20px' }}
+            >
+              Login
+            </Button>
+          </form>
+        </Paper>
+      </Grid>
+    </Grid>
   );
 };
 

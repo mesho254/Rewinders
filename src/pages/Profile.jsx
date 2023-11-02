@@ -1,16 +1,11 @@
 import React from 'react';
-import UpdateEmail from '../components/UpdateEmail';
 import { AvatarUser, AvatarText } from '../styles/Profile';
-import { useAuth } from '../context/AuthContext';
 import ResponsiveAppBar from '../components/AppBar';
 import Container from '@mui/material/Container';
 import Typography from '@mui/material/Typography';
-import  Spinner  from '../components/spinner';
 
 export default function Profile() {
-  const { currentUser, loading } = useAuth();
-
-  if (loading) return <Spinner/>;
+    const UserEmail = localStorage.getItem('email')
 
   return (
     <div>
@@ -28,12 +23,11 @@ export default function Profile() {
         }}
       >
         <AvatarUser style={{marginBottom: '100px', marginRight: '100px'}}>
-          <AvatarText>{currentUser.email[0]}</AvatarText>
+          <AvatarText>{UserEmail[0]}</AvatarText>
         </AvatarUser>
         <Typography variant="h5" gutterBottom>
-          User Email: {currentUser.email}
+          User Email: {UserEmail}
         </Typography>
-        <UpdateEmail />
       </Container>
     </div>
   );
