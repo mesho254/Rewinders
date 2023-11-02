@@ -14,7 +14,7 @@ function ViewInvoices() {
   useEffect(() => {
     const fetchInvoices = async () => {
       try {
-        const response = await axios.get('http://localhost:5000/api/invoices/allInvoices');
+        const response = await axios.get('https://rewinders-vgdr.vercel.app/api/invoices/allInvoices');
         const updatedInvoices = response.data.map(invoice => ({ ...invoice, read: false }));
         setInvoices(updatedInvoices);
       } catch (error) {
@@ -31,7 +31,7 @@ function ViewInvoices() {
 
   const fetchUpdatedInvoices = async () => {
     try {
-      const response = await axios.get('http://localhost:5000/api/invoices/allInvoices');
+      const response = await axios.get('https://rewinders-vgdr.vercel.app/api/invoices/allInvoices');
       setInvoices(response.data);
     } catch (error) {
       console.error('Failed to fetch updated invoices:', error);
@@ -40,7 +40,7 @@ function ViewInvoices() {
 
   const markAsRead = async () => {
     try {
-      await axios.patch(`http://localhost:5000/api/invoices/updateStatus/${selectedInvoice._id}`, { read: true });
+      await axios.patch(`https://rewinders-vgdr.vercel.app/api/invoices/updateStatus/${selectedInvoice._id}`, { read: true });
       fetchUpdatedInvoices();
     } catch (error) {
       console.error('Failed to mark invoice as read:', error);
@@ -49,7 +49,7 @@ function ViewInvoices() {
   
   const markAsUnread = async () => {
     try {
-      await axios.patch(`http://localhost:5000/api/invoices/updateStatus/${selectedInvoice._id}`, { read: false });
+      await axios.patch(`https://rewinders-vgdr.vercel.app/api/invoices/updateStatus/${selectedInvoice._id}`, { read: false });
       fetchUpdatedInvoices();
     } catch (error) {
       console.error('Failed to mark invoice as unread:', error);

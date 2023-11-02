@@ -12,7 +12,7 @@ const Login = () => {
   const handleLogin = async () => {
     try {
       // Send a POST request to your authentication endpoint (e.g., /auth/login)
-      const response = await axios.post('http://localhost:5000/api/user/login', {
+      const response = await axios.post('https://rewinders-vgdr.vercel.app/api/user/login', {
         email,
         password,
       });

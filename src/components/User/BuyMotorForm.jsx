@@ -75,7 +75,7 @@ const BuyMotorForm = () => {
       setIsLoading(true)
 
     try {
-      const response = await axios.post('http://localhost:5000/api/motor/buy', buyFormData);
+      const response = await axios.post('https://rewinders-vgdr.vercel.app/api/motor/buy', buyFormData);
 
       if (response.status === 201) {
         toast.success('Motor data submitted successfully!');

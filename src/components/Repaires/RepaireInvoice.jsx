@@ -38,7 +38,7 @@ const Invoice = () => {
       };
     
       const handleInvoiceSubmission = () => {
-        axios.post('http://localhost:5000/api/invoices/create', {
+        axios.post('https://rewinders-vgdr.vercel.app/api/invoices/create', {
           ...customerInfo,
           ...motorInfo,
         })
