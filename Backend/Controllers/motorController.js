@@ -130,4 +130,55 @@ const getBuyMotors = async (req, res) => {
     }
   };
 
-module.exports = { buyMotor, sellMotor, getBuyMotors, getSellMotors };
+  const createMotor = async (req, res) => {
+    try {
+      const motorData = req.body;
+      const newMotor = new Motor(motorData);
+      const savedMotor = await newMotor.save();
+      res.status(201).json(savedMotor);
+    } catch (error) {
+      res.status(500).json({ message: error.message });
+    }
+  };
+  
+  const updateMotor = async (req, res) => {
+    try {
+      const { id } = req.params;
+      const updatedData = req.body;
+      const updatedMotor = await Motor.findByIdAndUpdate(id, updatedData, { new: true });
+      res.status(200).json(updatedMotor);
+    } catch (error) {
+      res.status(500).json({ message: error.message });
+    }
+  };
+  
+  const getMotor = async (req, res) => {
+    try {
+      const { id } = req.params;
+      const motor = await Motor.findById(id);
+      res.status(200).json(motor);
+    } catch (error) {
+      res.status(500).json({ message: error.message });
+    }
+  };
+
+  const getAllMotors = async (req, res) => {
+    try {
+      const allMotors = await Motor.find({ listingType: { $exists: false } }); // Filters for motors without a listing type
+      res.status(200).json(allMotors);
+    } catch (error) {
+      res.status(500).json({ message: error.message });
+    }
+  };
+  
+  const deleteMotor = async (req, res) => {
+    try {
+      const { id } = req.params;
+      await Motor.findByIdAndRemove(id);
+      res.status(200).json({ message: 'Motor deleted successfully' });
+    } catch (error) {
+      res.status(500).json({ message: error.message });
+    }
+  };
+
+module.exports = { buyMotor, sellMotor, getBuyMotors, getSellMotors, createMotor,updateMotor,getMotor,deleteMotor, getAllMotors };

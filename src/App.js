@@ -6,6 +6,7 @@ import Spinner from './components/spinner'
 const Signup = lazy(()=> import('./components/Signup'))
 const Login = lazy(()=> import('./components/Login'))
 const Home = lazy(()=> import('./pages/Home'))
+const AdminPage = lazy(()=> import('./pages/AdminPage'))
 const Profile = lazy(()=> import('./pages/Profile'))
 const Page404 = lazy(()=> import('./hooks/Page404'))
 const Services = lazy(()=> import('./components/Services'))
@@ -17,6 +18,11 @@ const ElectricMotorDetails = lazy(()=> import('./components/MotorDetails/Electri
 const CombustionMotorDetails = lazy(()=> import('./components/MotorDetails/CombustionMotorDetails'))
 const Invoice = lazy(()=> import('./components/Repaires/RepaireInvoice'))
 const ViewInvoices = lazy(()=> import('./Admin/Motor/ViewInvoices'))
+const ViewUsers = lazy(()=> import('./Admin/Users/ViewUsers'))
+const PostMotor = lazy(()=> import('./Admin/Motor/PostMotor'))
+const AllMotors = lazy(()=> import('./Admin/Motor/getAllMotors'))
+const Contacts = lazy(()=> import('./components/Contact'))
+
 
 
 
@@ -29,6 +35,7 @@ const ViewInvoices = lazy(()=> import('./Admin/Motor/ViewInvoices'))
         
         <Route path='/' element={<Home />} />
         
+        <Route path="/adminDashboard" element={<AdminPage/>}/>
         <Route  path='/signup' element={<Signup />} />
         <Route path="/login" element={<Login/>}/>
         <Route path='/profile' element={<Profile/>}/>
@@ -41,6 +48,10 @@ const ViewInvoices = lazy(()=> import('./Admin/Motor/ViewInvoices'))
         <Route path="/combustion-motors" element={<CombustionMotorDetails/>}/>
         <Route path="/repair-invoice" element={<Invoice/>}/>
         <Route path="/viewInvoices" element={<ViewInvoices/>}/>
+        <Route path="/viewUsers" element={<ViewUsers/>}/>
+        <Route path="/postMotors" element={<PostMotor/>}/>
+        <Route path="/getMotors" element={<AllMotors/>}/>
+        <Route path="/contacts" element={<Contacts/>}/>
 
         <Route path='*' element={<Page404/>} />
         

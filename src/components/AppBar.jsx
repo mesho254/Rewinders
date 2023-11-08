@@ -51,11 +51,16 @@ function ResponsiveAppBar() {
   const history = useNavigate();
 
   const userEmail = localStorage.getItem('email');
+  const role = localStorage.getItem('role')
   const isAuthenticated = localStorage.getItem('token') !== null;
 
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
   };
+
+  const handleAdmin = ()=>{
+    history('/adminDashboard')
+  }
 
   const handleOpenUserMenu = (event) => {
     setAnchorElUser(event.currentTarget);
@@ -218,6 +223,12 @@ function ResponsiveAppBar() {
     </Link>
   </MenuItem>
 ))}
+              {isAuthenticated && role === 'admin' ? (
+                <MenuItem onClick={handleAdmin}>
+                  <Typography textAlign="center">Admin Dashboard</Typography>
+                </MenuItem>
+              ) : null}
+
               {isAuthenticated ? (
                 <MenuItem onClick={handleLogout}>
                   <Typography textAlign="center">Logout</Typography>

@@ -2,7 +2,7 @@ import React from 'react';
 import ResponsiveAppBar from './AppBar';
 import Footer from './Footer';
 import { Button, Card, CardContent, Container } from '@mui/material';
-import Image from '../assets/images/istockphoto-959141970-1024x1024.jpg';
+import Image from '../assets/images/WhatsApp Image 2023-11-07 at 08.33.05_a1edb51b.jpg';
 import { useNavigate } from 'react-router-dom';
 
 function Services() {

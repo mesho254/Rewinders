@@ -18,7 +18,7 @@ const About = () => {
   return (
     <div>
         <ResponsiveAppBar/>
-    <Container>
+    <Container style={{marginBottom:"100px"}}>
         <div>
           <h2>About Our Company</h2>
           <p>{companyDescription}</p>
