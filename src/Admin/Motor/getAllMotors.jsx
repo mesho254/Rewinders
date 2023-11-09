@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Container, Grid, Card, CardContent, Typography } from '@mui/material';
+import ResponsiveAppBar from '../../components/AppBar';
+import Footer from '../../components/Footer';
 
 const AllMotors = () => {
   const [motors, setMotors] = useState([]);
@@ -19,7 +21,9 @@ const AllMotors = () => {
   }, []);
 
   return (
-    <Container>
+    <>
+    <ResponsiveAppBar/>
+    <Container style={{marginBottom:"150px", marginTop:"50px"}}>
       <h1>All Motors</h1>
       <Grid container spacing={3}>
         {motors.map((motor) => (
@@ -71,6 +75,8 @@ const AllMotors = () => {
         ))}
       </Grid>
     </Container>
+    <Footer/>
+    </>
   );
 };
 

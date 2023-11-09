@@ -60,7 +60,7 @@ const ViewMotors = () => {
   return isLoading ? (<Spinner/>) : (
     <>
     <ResponsiveAppBar/>
-    <Container>
+    <Container style={{marginBottom:"120px", marginTop:"50px"}}>
       <h1>All Motors</h1>
       <Grid container spacing={3}>
         {motors.map((motor) => (
