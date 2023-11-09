@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Container, Typography,Grid, Card, CardContent, TextField, Button, CircularProgress } from '@mui/material';
+import { Container, Typography,Grid, Card, CardContent, TextField, Button, CircularProgress, styled } from '@mui/material';
 import ResponsiveAppBar from '../components/AppBar';
 import Footer from '../components/Footer';
 import Image1 from '../assets/images/control1.jpg'
@@ -9,6 +9,25 @@ import Image4 from '../assets/images/control1.jpg'
 import Image5 from '../assets/images/generator2.webp'
 import Image6 from '../assets/images/istockphoto-471204065-1024x1024.jpg'
 import axios from 'axios';
+import '../styles/About.css'
+
+const useStyles = styled((theme) => ({
+  companyDescription: {
+    [theme.breakpoints.down('xs')]: {
+      fontSize: '14px',
+    },
+    [theme.breakpoints.between('sm', 'md')]: {
+      fontSize: '18px',
+    },
+    [theme.breakpoints.between('md', 'lg')]: {
+      fontSize: '20px',
+    },
+    [theme.breakpoints.up('lg')]: {
+      fontSize: '22px',
+    },
+  },
+  // Other styles can be defined here
+}));
 
 
 const About = () => {
@@ -49,6 +68,8 @@ const About = () => {
     email: '',
     comment: '',
   });
+
+  const classes = useStyles();
 
   const [isLoading, setIsLoading] = useState(false)
 
@@ -115,11 +136,11 @@ const About = () => {
     <Container style={{marginBottom:"100px", maxWidth:"90%"}}>
         <div>
           <h2>About Our Company</h2>
-          <p style={{fontSize:"35px", border:"solid 1px", padding:"40px", color:"blue", maxWidth:"100%"}}> {companyDescription}</p>
+          <p style={{fontSize:"35px", border:"solid 1px", padding:"40px", color:"blue", maxWidth:"100%"}} className={classes.companyDescription}> {companyDescription}</p>
         </div>
       <Container>
       <h2>About Our Motors</h2>
-      <p style={{fontSize:"26px"}}>
+      <p style={{fontSize:"26px"}} className={classes.companyDescription}>
         We specialize in providing a diverse range of motors tailored to different needs. Our extensive
         collection includes electric motors, combustion motors, hydraulic motors, pneumatic motors, AC motors,
         DC motors, servo motors, linear motors, stepper motors, brushless motors, induction motors, gear motors,

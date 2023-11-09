@@ -30,6 +30,7 @@ const pages = [
   { label: 'Home', link: '/' },
   { label: 'Services', link: '/services' },
   { label: 'Pricing', link: '/pricing' },
+  { label: 'Blogs', link: '/blogs' },
   { label: 'About', link: '/about' },
   { label: 'Contacts', link: '/contacts' },
 ];

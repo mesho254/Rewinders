@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { Box, Paper, Grid, Typography, Button, IconButton, Container, useMediaQuery, useTheme  } from '@mui/material';
+import { Box, Paper, Grid, Typography, Button, IconButton, Container, useMediaQuery, useTheme, CircularProgress  } from '@mui/material';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import ResponsiveAppBar from '../../components/AppBar';
+import Footer from '../../components/Footer';
 
 function ViewInvoices() {
   const [invoices, setInvoices] = useState([]);
@@ -10,16 +12,20 @@ function ViewInvoices() {
   const [isMessageListVisible, setMessageListVisibility] = useState(true);
   const theme = useTheme();
   const isSmallerScreen = useMediaQuery(theme.breakpoints.down('md'));
+  const [isLoading, setIsLoading] = useState(false)
   
 
   useEffect(() => {
     const fetchInvoices = async () => {
+      setIsLoading(true)
       try {
         const response = await axios.get('https://rewinders-vgdr.vercel.app/api/invoices/allInvoices');
         const updatedInvoices = response.data.map(invoice => ({ ...invoice, read: false }));
         setInvoices(updatedInvoices);
+        setIsLoading(false)
       } catch (error) {
         console.error('Failed to fetch invoices:', error);
+        setIsLoading(false)
       }
     };
 
@@ -32,10 +38,13 @@ function ViewInvoices() {
 
   const fetchUpdatedInvoices = async () => {
     try {
+      setIsLoading(true)
       const response = await axios.get('https://rewinders-vgdr.vercel.app/api/invoices/allInvoices');
       setInvoices(response.data);
+      setIsLoading(false)
     } catch (error) {
       console.error('Failed to fetch updated invoices:', error);
+      setIsLoading(false)
     }
   };
 
@@ -62,7 +71,9 @@ function ViewInvoices() {
   };
 
   return (
-    <Container>
+    <>
+    <ResponsiveAppBar/>
+    <Container style={{marginBottom:"120px", marginTop:"50px"}}>
     <Box>
       <Typography variant="h4" align="center" gutterBottom>
         All Invoices
@@ -71,6 +82,7 @@ function ViewInvoices() {
         {isMessageListVisible ? <ChevronRightIcon /> : <ArrowBackIcon />}
       </IconButton>
       <Grid container style={{overflow:"auto"}}>
+      {isLoading ? (<div><CircularProgress/></div>): (
       <Grid item xs={isSmallerScreen ? 0 : isMessageListVisible ? 4 : 0}>
           <Box sx={{ maxHeight: 500, overflow: 'auto' }}>
             {invoices.map((invoice) => (
@@ -89,7 +101,8 @@ function ViewInvoices() {
               </Paper>
             ))}
           </Box>
-        </Grid>
+        </Grid>)}
+        {isLoading ? (<div><CircularProgress/></div>): (
         <Grid item xs={isSmallerScreen ? 12 : isMessageListVisible ? 8 : 12}>
           {selectedInvoice && (
             <Paper sx={{ padding: 4 }}>
@@ -107,10 +120,12 @@ function ViewInvoices() {
               </Button>
             </Paper>
           )}
-        </Grid>
+        </Grid>)}
       </Grid>
     </Box>
     </Container>
+    <Footer/>
+    </>
   );
 }
 

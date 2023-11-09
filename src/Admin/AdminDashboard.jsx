@@ -7,7 +7,7 @@ function AdminDashboard() {
   return (
     <>
       <ResponsiveAppBar/>
-      <Container>
+      <Container style={{marginTop:"50px"}}>
         <Grid
           container
           spacing={3}
@@ -23,27 +23,27 @@ function AdminDashboard() {
                   Admin Dashboard
                 </Typography>
                 <Link to='/viewUsers'>
-                  <Button variant='contained' fullWidth>
+                  <Button variant='contained' fullWidth style={{marginTop:"10px"}}>
                     View Users
                   </Button>
                 </Link>
                 <Link to='/postMotors'>
-                  <Button variant='contained' fullWidth>
+                  <Button variant='contained' fullWidth style={{marginTop:"10px"}}>
                     Post Motors
                   </Button>
                 </Link>
                 <Link to='/getMotors'>
-                  <Button variant='contained' fullWidth>
+                  <Button variant='contained' fullWidth style={{marginTop:"10px"}}>
                     View Posted Motors
                   </Button>
                 </Link>
                 <Link to='/viewInvoices'>
-                  <Button variant='contained' fullWidth>
+                  <Button variant='contained' fullWidth style={{marginTop:"10px"}}>
                     View Invoices
                   </Button>
                 </Link>
                 <Link to='/postBlog'>
-                  <Button variant='contained' fullWidth>
+                  <Button variant='contained' fullWidth style={{marginTop:"10px"}}>
                     Post Blog
                   </Button>
                 </Link>

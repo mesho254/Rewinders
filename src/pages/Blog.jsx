@@ -25,7 +25,7 @@ function Blog() {
   return (
     <>
     <ResponsiveAppBar/>
-    <Container>
+    <Container style={{marginBottom:"120px"}}>
       <Typography variant="h3" gutterBottom>
         Blog Posts
       </Typography>

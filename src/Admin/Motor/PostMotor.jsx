@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Grid, TextField, Button, Container } from '@mui/material';
+import { Grid, TextField, Button, Container, Typography, CircularProgress } from '@mui/material';
 import axios from 'axios';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -25,26 +25,95 @@ const PostMotor = () => {
   });
 
   const navigate = useNavigate();
-
+  const [isLoading, setIsLoading] = useState(false)
  
+  const [errors, setErrors] = useState({
+    make: '',
+    model: '',
+    year: '',
+    type: '',
+    voltage: '',
+    horsepower: '',
+    speed: '',
+    coolingSystem: '',
+    weight: '',
+    dimensions: '',
+    condition: '',
+    phase: '',
+    frequency: ''
+  });
 
   const handleChange = (e) => {
-    setMotorData({ ...motorData, [e.target.name]: e.target.value });
+    setMotorData({
+      ...motorData,
+      // eslint-disable-next-line no-restricted-globals
+      [event.target.name]: event.target.value,
+    });
+    setErrors({
+      ...errors,
+      // eslint-disable-next-line no-restricted-globals
+      [event.target.name]: event.target.value ? '' : `${event.target.name.charAt(0).toUpperCase() + event.target.name.slice(1)} is required`,
+    });
   };
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
-
-    try {
+    let errorDetected = false;
+        const newErrors = { ...errors };
+        Object.keys(motorData).forEach((key) => {
+          if (!motorData[key]) {
+            newErrors[key] = `${key.charAt(0).toUpperCase() + key.slice(1)} is required`;
+            errorDetected = true;
+          }
+        });
+    
+        if (errorDetected) {
+          setErrors(newErrors);
+        } else {
+          setIsLoading(true)
       // Make a POST request to your backend
-      const response = await axios.post('https://rewinders-vgdr.vercel.app/api/motor/addMotor', motorData);
+       axios.post('https://rewinders-vgdr.vercel.app/api/motor/addMotor',{
+        ...motorData
+      } ).then((response)=>{
       console.log('Motor posted:', response.data);
       toast.success('Motor posted successfully!');
-    } catch (error) {
+      setMotorData({
+        make: '',
+        model: '',
+        year: '',
+        type: '',
+        voltage: '',
+        horsepower: '',
+        speed: '',
+        coolingSystem: '',
+        weight: '',
+        dimensions: '',
+        condition: '',
+        phase: '',
+        frequency: ''
+      })
+      setErrors({
+        make: '',
+        model: '',
+        year: '',
+        type: '',
+        voltage: '',
+        horsepower: '',
+        speed: '',
+        coolingSystem: '',
+        weight: '',
+        dimensions: '',
+        condition: '',
+        phase: '',
+        frequency: ''
+      })
+      setIsLoading(false)
+      }).catch ((error)=> {
       toast.error('Failed to post motor. Please try again.');
       console.error('Failed to post motor:', error);
-    }
+      setIsLoading(false)
+    })
   };
+}
 
   const isAuthenticated = localStorage.getItem('token') !== null;
   const userRole = localStorage.getItem('role');
@@ -59,6 +128,7 @@ const PostMotor = () => {
   <ResponsiveAppBar/>
     <Container style={{marginTop:"50px", marginBottom:"50px"}}>
         <ToastContainer/>
+        <Typography variant='h3'>Post Motors That You Are Selling</Typography>
     <Grid container spacing={3}>
       <Grid item xs={12} sm={6}>
         <TextField
@@ -66,6 +136,8 @@ const PostMotor = () => {
           name="make"
           value={motorData.make}
           onChange={handleChange}
+          error={Boolean(errors.make)}
+          helperText={errors.make}
           fullWidth
         />
       </Grid>
@@ -75,6 +147,8 @@ const PostMotor = () => {
           name="model"
           value={motorData.model}
           onChange={handleChange}
+          error={Boolean(errors.model)}
+          helperText={errors.model}
           fullWidth
         />
       </Grid>
@@ -84,6 +158,8 @@ const PostMotor = () => {
           name="year"
           value={motorData.year}
           onChange={handleChange}
+          error={Boolean(errors.year)}
+          helperText={errors.year}
           fullWidth
         />
       </Grid>
@@ -93,6 +169,8 @@ const PostMotor = () => {
           name="type"
           value={motorData.type}
           onChange={handleChange}
+          error={Boolean(errors.type)}
+          helperText={errors.type}
           fullWidth
         />
       </Grid>
@@ -102,6 +180,8 @@ const PostMotor = () => {
           name="voltage"
           value={motorData.voltage}
           onChange={handleChange}
+          error={Boolean(errors.voltage)}
+          helperText={errors.voltage}
           fullWidth
         />
       </Grid>
@@ -111,6 +191,8 @@ const PostMotor = () => {
           name="horsepower"
           value={motorData.horsepower}
           onChange={handleChange}
+          error={Boolean(errors.horsepower)}
+          helperText={errors.horsepower}
           fullWidth
         />
       </Grid>
@@ -120,6 +202,8 @@ const PostMotor = () => {
           name="speed"
           value={motorData.speed}
           onChange={handleChange}
+          error={Boolean(errors.speed)}
+          helperText={errors.speed}
           fullWidth
         />
       </Grid>
@@ -129,6 +213,8 @@ const PostMotor = () => {
           name="coolingSystem"
           value={motorData.coolingSystem}
           onChange={handleChange}
+          error={Boolean(errors.coolingSystem)}
+          helperText={errors.coolingSystem}
           fullWidth
         />
       </Grid>
@@ -138,6 +224,8 @@ const PostMotor = () => {
           name="weight"
           value={motorData.weight}
           onChange={handleChange}
+          error={Boolean(errors.weight)}
+          helperText={errors.weight}
           fullWidth
         />
       </Grid>
@@ -147,6 +235,8 @@ const PostMotor = () => {
           name="dimensions"
           value={motorData.dimensions}
           onChange={handleChange}
+          error={Boolean(errors.dimensions)}
+          helperText={errors.dimensions}
           fullWidth
         />
       </Grid>
@@ -156,6 +246,8 @@ const PostMotor = () => {
           name="condition"
           value={motorData.condition}
           onChange={handleChange}
+          error={Boolean(errors.condition)}
+          helperText={errors.condition}
           fullWidth
         />
       </Grid>
@@ -165,6 +257,8 @@ const PostMotor = () => {
           name="phase"
           value={motorData.phase}
           onChange={handleChange}
+          error={Boolean(errors.phase)}
+          helperText={errors.phase}
           fullWidth
         />
       </Grid>
@@ -174,13 +268,16 @@ const PostMotor = () => {
           name="frequency"
           value={motorData.frequency}
           onChange={handleChange}
+          error={Boolean(errors.frequency)}
+          helperText={errors.frequency}
           fullWidth
         />
       </Grid>
       <Grid item xs={12}>
+      {isLoading ? (<div><CircularProgress/></div>):(
         <Button variant="contained" color="primary" onClick={handleSubmit} fullWidth>
           Submit
-        </Button>
+        </Button>)}
       </Grid>
     </Grid>
     </Container>

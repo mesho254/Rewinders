@@ -63,7 +63,7 @@ function CommentSection() {
       };
       
   return (
-    <Container style={{ marginTop: '30px', maxWidth:"60%", marginBottom:"50px" }}>
+    <Container style={{ marginTop: '30px', maxWidth:"90%", marginBottom:"50px" }}>
     <Typography variant="h5" style={{ margin: '50px 0' }}>Submit a Comment</Typography>
     <Grid container spacing={3}>
       <Grid item xs={12}>
