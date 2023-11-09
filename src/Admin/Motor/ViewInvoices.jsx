@@ -10,6 +10,7 @@ function ViewInvoices() {
   const [isMessageListVisible, setMessageListVisibility] = useState(true);
   const theme = useTheme();
   const isSmallerScreen = useMediaQuery(theme.breakpoints.down('md'));
+  
 
   useEffect(() => {
     const fetchInvoices = async () => {

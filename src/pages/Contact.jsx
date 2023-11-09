@@ -8,8 +8,8 @@ import {
   CardContent,
   IconButton,
 } from '@mui/material';
-import ResponsiveAppBar from './AppBar';
-import Footer from './Footer';
+import ResponsiveAppBar from '../components/AppBar';
+import Footer from '../components/Footer';
 import EmailIcon from '@mui/icons-material/Email';
 import FacebookIcon from '@mui/icons-material/Facebook';
 import TwitterIcon from '@mui/icons-material/Twitter';
@@ -35,7 +35,7 @@ const Contacts = () => {
             Here's a list of contacts available for your use.
           </Typography>
           <Typography variant="body2" gutterBottom>
-            Contacts are displayed in an easily accessible format for quick reference.
+            Contacts the workers available using the Contacts and Social Media Below
           </Typography>
           <Grid container spacing={3}>
             {contacts.map((contact) => (

@@ -106,6 +106,7 @@ function ResponsiveAppBar() {
         <ResponsiveTypography
             variant="h6"
             noWrap
+            href='/'
             component={AnchorWithRef} 
             sx={{
               mr: 2,
@@ -162,6 +163,7 @@ function ResponsiveAppBar() {
           <ResponsiveTypography
             variant="h5"
             noWrap
+            href='/'
             component={AnchorWithRef}
             sx={{
               mr: 2,
@@ -169,8 +171,6 @@ function ResponsiveAppBar() {
               flexGrow: 1,
               fontFamily: 'monospace',
               fontWeight: 7,
-              height: '30px',
-              width: '30px',
               borderRadius: '6px',
               color: 'inherit',
               textDecoration: 'none',

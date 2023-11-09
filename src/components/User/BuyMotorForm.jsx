@@ -53,6 +53,25 @@ const BuyMotorForm = () => {
 
   const [isLoading, setIsLoading] = useState(false)
 
+  const [errors, setErrors] = useState({
+    yourName: '',
+    phoneNumber: '',
+    email: '',
+    make: '',
+    model: '',
+    year: '',
+    type: '',
+    voltage: '',
+    horsepower: '',
+    speed: '',
+    coolingSystem: '',
+    weight: '',
+    dimensions: '',
+    condition: '',
+    phase: '',
+    frequency: '',
+  });
+
   const handleScrollToForm = () => {
     const formSection = document.getElementById('formSection');
     if (formSection) {
@@ -66,47 +85,82 @@ const BuyMotorForm = () => {
       ...buyFormData,
       [name]: value,
     });
+    setErrors({
+      ...errors,
+      [name]: value ? '' : `${name.charAt(0).toUpperCase() + name.slice(1)} is required`,
+    });
   };
 
   const handleBuySubmit = async (event) => {
     if (event.cancelable) {
-        event.preventDefault();
+      event.preventDefault();
+    }
+    setIsLoading(true);
+
+    let errorDetected = false;
+    const newErrors = { ...errors };
+    Object.keys(buyFormData).forEach((key) => {
+      if (!buyFormData[key]) {
+        newErrors[key] = `${key.charAt(0).toUpperCase() + key.slice(1)} is required`;
+        errorDetected = true;
       }
-      setIsLoading(true)
+    });
 
-    try {
-      const response = await axios.post('https://rewinders-vgdr.vercel.app/api/motor/buy', buyFormData);
+    if (errorDetected) {
+      setErrors(newErrors);
+      setIsLoading(false);
+    } else {
+      try {
+        const response = await axios.post('https://rewinders-vgdr.vercel.app/api/motor/buy', buyFormData);
 
-      if (response.status === 201) {
-        toast.success('Motor data submitted successfully!');
-        setIsLoading(false)
-              // Clear form fields after success
-      setBuyFormData({
-        yourName: '',
-        phoneNumber: '',
-        email: '',
-        make: '',
-        model: '',
-        year: '',
-        type: '',
-        voltage: '',
-        horsepower: '',
-        speed: '',
-        coolingSystem: '',
-        weight: '',
-        dimensions: '',
-        condition: '',
-        phase: '',
-        frequency: '',
-      });
-
-      } else {
-        toast.error('Failed to submit motor data');
-        setIsLoading(false)
+        if (response.status === 201) {
+          toast.success('Motor data submitted successfully!');
+          setIsLoading(false);
+          // Clear form fields after success
+          setBuyFormData({
+            yourName: '',
+            phoneNumber: '',
+            email: '',
+            make: '',
+            model: '',
+            year: '',
+            type: '',
+            voltage: '',
+            horsepower: '',
+            speed: '',
+            coolingSystem: '',
+            weight: '',
+            dimensions: '',
+            condition: '',
+            phase: '',
+            frequency: '',
+          });
+          setErrors({
+            yourName: '',
+            phoneNumber: '',
+            email: '',
+            make: '',
+            model: '',
+            year: '',
+            type: '',
+            voltage: '',
+            horsepower: '',
+            speed: '',
+            coolingSystem: '',
+            weight: '',
+            dimensions: '',
+            condition: '',
+            phase: '',
+            frequency: '',
+          });
+        } else {
+          toast.error('Failed to submit motor data');
+          setIsLoading(false);
+        }
+      } catch (error) {
+        toast.error('Error occurred while submitting data');
+        setIsLoading(false);
       }
-    } catch (error) {
-      toast.error('Error occurred while submitting data');
-      setIsLoading(false)
     }
   };
 
@@ -167,19 +221,23 @@ const BuyMotorForm = () => {
             <h1>Buy a Motor</h1>
             <form onSubmit={handleBuySubmit} id="formSection">
 
-              <TextField
-                name="yourName"
-                label="Your Name"
-                value={buyFormData.yourName}
-                onChange={handleBuyFormChange}
-                style={{marginTop:"10px"}}
-                fullWidth
-              />
+            <TextField
+              name="yourName"
+              label="Your Name"
+              value={buyFormData.yourName}
+              onChange={handleBuyFormChange}
+              helperText={errors.yourName}
+              error={Boolean(errors.yourName)}
+              style={{ marginTop: '10px' }}
+              fullWidth
+            />
               <TextField
                 name="phoneNumber"
                 label="Phone Number"
                 value={buyFormData.phoneNumber}
                 onChange={handleBuyFormChange}
+                helperText={errors.phoneNumber}
+                error={Boolean(errors.phoneNumber)}
                 style={{marginTop:"10px"}}
                 fullWidth
               />
@@ -188,6 +246,8 @@ const BuyMotorForm = () => {
                 label="Email"
                 value={buyFormData.email}
                 onChange={handleBuyFormChange}
+                helperText={errors.email}
+                error={Boolean(errors.email)}
                 style={{marginTop:"10px"}}
                 fullWidth
               />
@@ -196,6 +256,8 @@ const BuyMotorForm = () => {
                 label="Make"
                 value={buyFormData.make}
                 onChange={handleBuyFormChange}
+                helperText={errors.make}
+                error={Boolean(errors.make)}
                 style={{marginTop:"10px"}}
                 fullWidth
                 />
@@ -204,6 +266,8 @@ const BuyMotorForm = () => {
                 label="Model"
                 value={buyFormData.model}
                 onChange={handleBuyFormChange}
+                helperText={errors.model}
+                error={Boolean(errors.model)}
                 style={{marginTop:"10px"}}
                 fullWidth
                 />
@@ -212,6 +276,8 @@ const BuyMotorForm = () => {
                 label="Year"
                 value={buyFormData.year}
                 onChange={handleBuyFormChange}
+                helperText={errors.year}
+                error={Boolean(errors.year)}
                 style={{marginTop:"10px"}}
                 fullWidth
                 />
@@ -220,6 +286,8 @@ const BuyMotorForm = () => {
                 label="Type"
                 value={buyFormData.type}
                 onChange={handleBuyFormChange}
+                helperText={errors.type}
+                error={Boolean(errors.type)}
                 style={{marginTop:"10px"}}
                 fullWidth
                 />
@@ -228,6 +296,8 @@ const BuyMotorForm = () => {
                 label="Voltage"
                 value={buyFormData.voltage}
                 onChange={handleBuyFormChange}
+                helperText={errors.voltage}
+                error={Boolean(errors.voltage)}
                 style={{marginTop:"10px"}}
                 fullWidth
                 />
@@ -236,6 +306,8 @@ const BuyMotorForm = () => {
                 label="Horsepower (HP)"
                 value={buyFormData.horsepower}
                 onChange={handleBuyFormChange}
+                helperText={errors.horsepower}
+                error={Boolean(errors.horsepower)}
                 style={{marginTop:"10px"}}
                 fullWidth
                 />
@@ -244,6 +316,8 @@ const BuyMotorForm = () => {
                 label="Speed (RPM)"
                 value={buyFormData.speed}
                 onChange={handleBuyFormChange}
+                helperText={errors.speed}
+                error={Boolean(errors.speed)}
                 style={{marginTop:"10px"}}
                 fullWidth
                 />
@@ -252,6 +326,8 @@ const BuyMotorForm = () => {
                 label="Cooling System"
                 value={buyFormData.coolingSystem}
                 onChange={handleBuyFormChange}
+                helperText={errors.coolingSystem}
+                error={Boolean(errors.coolingSystem)}
                 style={{marginTop:"10px"}}
                 fullWidth
                 />
@@ -260,6 +336,8 @@ const BuyMotorForm = () => {
                 label="Weight"
                 value={buyFormData.weight}
                 onChange={handleBuyFormChange}
+                helperText={errors.weight}
+                error={Boolean(errors.weight)}
                 style={{marginTop:"10px"}}
                 fullWidth
                 />
@@ -268,6 +346,8 @@ const BuyMotorForm = () => {
                 label="Dimensions"
                 value={buyFormData.dimensions}
                 onChange={handleBuyFormChange}
+                helperText={errors.dimensions}
+                error={Boolean(errors.dimensions)}
                 style={{marginTop:"10px"}}
                 fullWidth
                 />
@@ -276,6 +356,8 @@ const BuyMotorForm = () => {
                 label="Condition"
                 value={buyFormData.condition}
                 onChange={handleBuyFormChange}
+                helperText={errors.condition}
+                error={Boolean(errors.condition)}
                 style={{marginTop:"10px"}}
                 fullWidth
                 />
@@ -284,6 +366,8 @@ const BuyMotorForm = () => {
                 label="Phase"
                 value={buyFormData.phase}
                 onChange={handleBuyFormChange}
+                helperText={errors.phase}
+                error={Boolean(errors.phase)}
                 style={{marginTop:"10px"}}
                 fullWidth
                 />
@@ -292,6 +376,8 @@ const BuyMotorForm = () => {
                 label="Frequency"
                 value={buyFormData.frequency}
                 onChange={handleBuyFormChange}
+                helperText={errors.frequency}
+                error={Boolean(errors.frequency)}
                 style={{marginTop:"10px"}}
                 fullWidth
                 />

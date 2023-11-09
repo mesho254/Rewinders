@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
 import { TextField, Button, Grid, Paper, Typography, CircularProgress } from '@mui/material';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import {jwtDecode} from 'jwt-decode';
+import ResponsiveAppBar from './AppBar';
+import Footer from './Footer';
 
 const Login = () => {
   const history = useNavigate();
@@ -43,7 +45,8 @@ const Login = () => {
       setIsLoading(false)
     }
   };
-  return (
+  return (<>
+  <ResponsiveAppBar/>
     <Grid container justifyContent="center" alignItems="center" style={{ height: '100vh' }}>
       <Grid item xs={10} sm={6} md={4}>
         <Paper elevation={3} style={{ padding: '20px', textAlign: 'center' }}>
@@ -78,10 +81,16 @@ const Login = () => {
             >
               Login
             </Button>)}
+            <div style={{padding:"10px", display:"flex", flexDirection:"column"}}>
+            <Link to='/signup'>Create a new Account</Link>
+            <Link to='/forgotPassword'>Forgot Password?</Link>
+            </div>
           </form>
         </Paper>
       </Grid>
     </Grid>
+    <Footer/>
+    </>
   );
 };
 

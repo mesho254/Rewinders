@@ -1,0 +1,133 @@
+
+.about-section {
+    margin: 40px 30px;
+   
+
+}
+ 
+.about-section h1{
+    font-size: 48px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    color: #0C4E13;
+}
+.about-post {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding: 20px 68px;
+    border-radius: 12px;
+    margin-left: -20px;
+
+}
+
+.about-content {
+    width: 90%;
+    height: 240px;
+    border-radius:  12px;
+    background-color: #D9D9D9;
+}
+
+.about-content h2 {
+    margin-top: 20px;
+    color: #0C4E13;
+text-align: center;
+font-family: Inter;
+font-size: 22px;
+font-style: normal;
+font-weight: 400;
+line-height: normal;
+}
+
+.about-content p {
+    margin: 20px 0;
+}
+
+.about-content a {
+    text-decoration: none;
+    color: blue;
+    font-weight: bold;
+}
+
+.about-why{
+    margin: 30px 100px;
+}
+
+.about-school{
+    display: flex;
+    justify-content: space-around;
+    margin: 10px 0;
+
+}
+
+.about-school p{
+    font-size: 40px;
+    margin: 40px 0;
+}
+
+.about-school img{
+    height: 400px;
+    width: 700px;
+    border-radius: 12px;
+}
+
+.about-button p{
+    font-size: 38px;
+}
+
+.about-button input{
+    padding: 20px 100px;
+    margin: 10px 0;
+    cursor: pointer;
+    background-color: #0C4E13;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-size: 20px;
+}
+
+.about-button input:hover{
+    scale: 1.05;
+}
+
+/* Additional styles for smaller screens (e.g., mobile devices) */
+@media (max-width: 767px) {
+    .about-content {
+        width: 90%;
+        height: 240px;
+        border-radius: 12px;
+    }
+    .about-section {
+        margin: 20px;
+        
+    }
+
+    .about-post {
+        padding: 10px 50px;
+        margin-left: -40px;
+    }
+
+    .about-school{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+    }
+    
+    .about-school p{
+        
+        font-size: 13px;
+    }
+    
+    .about-school img{
+        height: 200px;
+        width: 200px;
+        
+    }
+
+    .about-why{
+        margin: 20px;
+    }
+}

@@ -42,6 +42,11 @@ function AdminDashboard() {
                     View Invoices
                   </Button>
                 </Link>
+                <Link to='/postBlog'>
+                  <Button variant='contained' fullWidth>
+                    Post Blog
+                  </Button>
+                </Link>
               </CardContent>
             </Card>
           </Grid>

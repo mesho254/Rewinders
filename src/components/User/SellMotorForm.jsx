@@ -53,6 +53,25 @@ const SellMotorForm = () => {
 
   const [isLoading, setIsLoading] = useState(false)
 
+  const [errors, setErrors] = useState({
+    yourName: '',
+    phoneNumber: '',
+    email: '',
+    make: '',
+    model: '',
+    year: '',
+    type: '',
+    voltage: '',
+    horsepower: '',
+    speed: '',
+    coolingSystem: '',
+    weight: '',
+    dimensions: '',
+    condition: '',
+    phase: '',
+    frequency: '',
+  });
+
   const handleScrollToForm = () => {
     const formSection = document.getElementById('formSection');
     if (formSection) {
@@ -66,48 +85,82 @@ const SellMotorForm = () => {
       ...sellFormData,
       [name]: value,
     });
+    setErrors({
+      ...errors,
+      [name]: value ? '' : `${name.charAt(0).toUpperCase() + name.slice(1)} is required`,
+    });
   };
 
   const handleSellSubmit = async (event) => {
     if (event.cancelable) {
-        event.preventDefault();
+      event.preventDefault();
+    }
+    setIsLoading(true);
+
+    let errorDetected = false;
+    const newErrors = { ...errors };
+    Object.keys(sellFormData).forEach((key) => {
+      if (!sellFormData[key]) {
+        newErrors[key] = `${key.charAt(0).toUpperCase() + key.slice(1)} is required`;
+        errorDetected = true;
       }
+    });
 
-    try {
-        setIsLoading(true)
-      const response = await axios.post('https://rewinders-vgdr.vercel.app/api/motor/sell', sellFormData);
+    if (errorDetected) {
+      setErrors(newErrors);
+      setIsLoading(false);
+    } else {
+      try {
+        const response = await axios.post('https://rewinders-vgdr.vercel.app/api/motor/sell', sellFormData);
 
-      if (response.status === 201) {
-        toast.success('Motor data submitted successfully! A Seller will Contact you Soon');
-        setIsLoading(false)
-
-              // Clear form fields after success
-      setSellFormData({
-        yourName: '',
-        phoneNumber: '',
-        email: '',
-        make: '',
-        model: '',
-        year: '',
-        type: '',
-        voltage: '',
-        horsepower: '',
-        speed: '',
-        coolingSystem: '',
-        weight: '',
-        dimensions: '',
-        condition: '',
-        phase: '',
-        frequency: '',
-      });
-
-      } else {
-        toast.error('Failed to submit motor data');
-        setIsLoading(false)
+        if (response.status === 201) {
+          toast.success('Motor data submitted successfully!');
+          setIsLoading(false);
+          // Clear form fields after success
+          setSellFormData({
+            yourName: '',
+            phoneNumber: '',
+            email: '',
+            make: '',
+            model: '',
+            year: '',
+            type: '',
+            voltage: '',
+            horsepower: '',
+            speed: '',
+            coolingSystem: '',
+            weight: '',
+            dimensions: '',
+            condition: '',
+            phase: '',
+            frequency: '',
+          });
+          setErrors({
+            yourName: '',
+            phoneNumber: '',
+            email: '',
+            make: '',
+            model: '',
+            year: '',
+            type: '',
+            voltage: '',
+            horsepower: '',
+            speed: '',
+            coolingSystem: '',
+            weight: '',
+            dimensions: '',
+            condition: '',
+            phase: '',
+            frequency: '',
+          });
+        } else {
+          toast.error('Failed to submit motor data');
+          setIsLoading(false);
+        }
+      } catch (error) {
+        toast.error('Error occurred while submitting data');
+        setIsLoading(false);
       }
-    } catch (error) {
-      toast.error('Error occurred while submitting data');
-      setIsLoading(false)
     }
   };
 
@@ -167,18 +220,23 @@ const SellMotorForm = () => {
             </Container>
           <h1>Sell Your Motor</h1>
             <form onSubmit={handleSellSubmit} id="formSection">
-              <TextField
-                name="yourName"
-                label="Your Name"
-                value={sellFormData.yourName}
-                onChange={handleSellFormChange}
-                fullWidth
-              />
+            <TextField
+              name="yourName"
+              label="Your Name"
+              value={sellFormData.yourName}
+              onChange={handleSellFormChange}
+              helperText={errors.yourName}
+              error={Boolean(errors.yourName)}
+              style={{ marginTop: '10px' }}
+              fullWidth
+            />
               <TextField
                 name="phoneNumber"
                 label="Phone Number"
                 value={sellFormData.phoneNumber}
                 onChange={handleSellFormChange}
+                helperText={errors.phoneNumber}
+                error={Boolean(errors.phoneNumber)}
                 style={{marginTop:"10px"}}
                 fullWidth
               />
@@ -187,6 +245,8 @@ const SellMotorForm = () => {
                 label="Email"
                 value={sellFormData.email}
                 onChange={handleSellFormChange}
+                helperText={errors.email}
+                error={Boolean(errors.email)}
                 style={{marginTop:"10px"}}
                 fullWidth
               />
@@ -195,6 +255,8 @@ const SellMotorForm = () => {
                 label="Make"
                 value={sellFormData.make}
                 onChange={handleSellFormChange}
+                helperText={errors.make}
+                error={Boolean(errors.make)}
                 style={{marginTop:"10px"}}
                 fullWidth
                 />
@@ -203,6 +265,8 @@ const SellMotorForm = () => {
                 label="Model"
                 value={sellFormData.model}
                 onChange={handleSellFormChange}
+                helperText={errors.model}
+                error={Boolean(errors.model)}
                 style={{marginTop:"10px"}}
                 fullWidth
                 />
@@ -211,6 +275,8 @@ const SellMotorForm = () => {
                 label="Year"
                 value={sellFormData.year}
                 onChange={handleSellFormChange}
+                helperText={errors.year}
+                error={Boolean(errors.year)}
                 style={{marginTop:"10px"}}
                 fullWidth
                 />
@@ -219,6 +285,8 @@ const SellMotorForm = () => {
                 label="Type"
                 value={sellFormData.type}
                 onChange={handleSellFormChange}
+                helperText={errors.type}
+                error={Boolean(errors.type)}
                 style={{marginTop:"10px"}}
                 fullWidth
                 />
@@ -227,6 +295,8 @@ const SellMotorForm = () => {
                 label="Voltage"
                 value={sellFormData.voltage}
                 onChange={handleSellFormChange}
+                helperText={errors.voltage}
+                error={Boolean(errors.voltage)}
                 style={{marginTop:"10px"}}
                 fullWidth
                 />
@@ -235,6 +305,8 @@ const SellMotorForm = () => {
                 label="Horsepower (HP)"
                 value={sellFormData.horsepower}
                 onChange={handleSellFormChange}
+                helperText={errors.horsepower}
+                error={Boolean(errors.horsepower)}
                 style={{marginTop:"10px"}}
                 fullWidth
                 />
@@ -243,6 +315,8 @@ const SellMotorForm = () => {
                 label="Speed (RPM)"
                 value={sellFormData.speed}
                 onChange={handleSellFormChange}
+                helperText={errors.speed}
+                error={Boolean(errors.speed)}
                 style={{marginTop:"10px"}}
                 fullWidth
                 />
@@ -251,6 +325,8 @@ const SellMotorForm = () => {
                 label="Cooling System"
                 value={sellFormData.coolingSystem}
                 onChange={handleSellFormChange}
+                helperText={errors.coolingSystem}
+                error={Boolean(errors.coolingSystem)}
                 style={{marginTop:"10px"}}
                 fullWidth
                 />
@@ -259,6 +335,8 @@ const SellMotorForm = () => {
                 label="Weight"
                 value={sellFormData.weight}
                 onChange={handleSellFormChange}
+                helperText={errors.weight}
+                error={Boolean(errors.weight)}
                 style={{marginTop:"10px"}}
                 fullWidth
                 />
@@ -267,6 +345,8 @@ const SellMotorForm = () => {
                 label="Dimensions"
                 value={sellFormData.dimensions}
                 onChange={handleSellFormChange}
+                helperText={errors.dimensions}
+                error={Boolean(errors.dimensions)}
                 style={{marginTop:"10px"}}
                 fullWidth
                 />
@@ -275,6 +355,8 @@ const SellMotorForm = () => {
                 label="Condition"
                 value={sellFormData.condition}
                 onChange={handleSellFormChange}
+                helperText={errors.condition}
+                error={Boolean(errors.condition)}
                 style={{marginTop:"10px"}}
                 fullWidth
                 />
@@ -283,6 +365,8 @@ const SellMotorForm = () => {
                 label="Phase"
                 value={sellFormData.phase}
                 onChange={handleSellFormChange}
+                helperText={errors.phase}
+                error={Boolean(errors.phase)}
                 style={{marginTop:"10px"}}
                 fullWidth
                 />
@@ -291,6 +375,8 @@ const SellMotorForm = () => {
                 label="Frequency"
                 value={sellFormData.frequency}
                 onChange={handleSellFormChange}
+                helperText={errors.frequency}
+                error={Boolean(errors.frequency)}
                 style={{marginTop:"10px"}}
                 fullWidth
                 />

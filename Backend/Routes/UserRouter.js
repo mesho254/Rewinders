@@ -10,4 +10,10 @@ router.post('/register', authController.registerUser);
 // Route for user login
 router.post('/login', authController.loginUser);
 
+router.post("/forgot-password1", authController.forgotPassword1)
+
+router.get("/password-reset/:id/:token", authController.getResetToken)
+
+router.post("/password-reset/:id/:token", authController.resetPassword1)
+
 module.exports = router;

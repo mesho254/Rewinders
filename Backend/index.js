@@ -6,6 +6,9 @@ const bodyParser=require("body-parser");
 const motor = require('./Routes/motorRouter');
 const userRoute = require('./Routes/UserRouter')
 const invoiceRoutes = require('./Routes/invoiceRoute');
+const commentRoute = require('./Routes/commentRoute')
+const postRoute = require('./Routes/postRoute');
+const quotationRoute = require('./Routes/quotationRoute')
 const corsOptions={origin:"*",credentials:true,optionSuccessStatus:200};
 dotenv.config();
 
@@ -39,6 +42,9 @@ mongoose.connect(process.env.MongoURI, mongooseOptions,err=>{
 app.use('/api/motor', motor);
 app.use('/api/user', userRoute)
 app.use('/api/invoices', invoiceRoutes);
+app.use('/api/comment', commentRoute)
+app.use('/api/post', postRoute);
+app.use('/api/quotation', quotationRoute);
 
 app.get("/",(req,res)=>{
     res.status(200).json({

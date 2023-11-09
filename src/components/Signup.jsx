@@ -12,27 +12,19 @@ import {
   CircularProgress,
 } from '@mui/material';
 import axios from 'axios';
-import { Link } from 'react-router-dom';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Footer from '../components/Footer';
 import ResponsiveAppBar from '../components/AppBar';
+import { Link, useNavigate } from 'react-router-dom';
 
-const containerStyle = {
-  display: 'flex',
-  flexDirection: 'column',
-  alignItems: 'center',
-  justifyContent: 'center',
-  height: '100vh',
-  marginBottom: '100px',
-};
+
 
 const Signup = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
-  const [role, setRole] = useState('admin');
   const [gender, setGender] = useState('');
   const [error, setError] = useState('');
   const [emptyFieldErrors, setEmptyFieldErrors] = useState({
@@ -43,6 +35,7 @@ const Signup = () => {
   });
 
 const [isLoading, setIsLoading] = useState(false)
+const navigate = useNavigate()
 
   const passwordPattern = /^(?=.*[A-Z])(?=.*\d)(?=.*\W).+/;
 
@@ -76,24 +69,34 @@ const [isLoading, setIsLoading] = useState(false)
         lastName,
         email,
         password,
-        role,
         gender,
       };
 
-      const response = await axios.post('https://college-dashboard-dusky.vercel.app/api/user/register', userData);
+      const response = await axios.post('https://rewinders-vgdr.vercel.app/api/user/register', userData);
 
       if (response.status === 201) {
-        toast.success('Registration successful!', {
-          position: 'top-right',
-          autoClose: 3000,
-        });
+        let countdown = 5; // Countdown time in seconds
+        const countdownInterval = setInterval(() => {
+          countdown -= 1;
+          if (countdown > 0) {
+            toast.success(`Registration successful! Redirecting to login page in ${countdown} seconds`, {
+              position: 'top-right',
+              autoClose: 1000, // Set the autoClose time to 1 second
+              hideProgressBar: true,
+            });
+          }
+        }, 1000);
+
+        setTimeout(() => {
+          clearInterval(countdownInterval);
+          navigate('/login'); 
+        }, countdown * 1000);
 
         // Clear the form fields on successful registration
         setEmail('');
         setPassword('');
         setFirstName('');
         setLastName('');
-        setRole('admin');
         setEmptyFieldErrors({
           email: false,
           password: false,
@@ -102,18 +105,19 @@ const [isLoading, setIsLoading] = useState(false)
         });
         setIsLoading(false)
         setError('')
+        
       } else {
         setError('Registration failed. Please try again.');
+        setIsLoading(false)
       }
     } catch (error) {
       console.error(error);
       setError('Registration failed. Please try again.');
+      setIsLoading(false)
     }
   };
 
-  const isAuthenticated = localStorage.getItem('token') !== null;
-  const userRole = localStorage.getItem('role');
-  return isAuthenticated && userRole === 'admin' ? (
+  return (
     <>
       <ResponsiveAppBar />
 
@@ -148,20 +152,6 @@ const [isLoading, setIsLoading] = useState(false)
                 required
                 error={emptyFieldErrors.lastName}
               />
-              <FormControl component="fieldset" margin="normal" required>
-                <Typography variant="h5">Choose user Role</Typography>
-                <RadioGroup
-                  aria-label="Role"
-                  name="role"
-                  value={role}
-                  onChange={(e) => setRole(e.target.value)}
-                  row
-                  style={{ marginTop: '16px' }}
-                >
-                  <FormControlLabel value="admin" control={<Radio />} label="Admin" />
-                  <FormControlLabel value="other" control={<Radio />} label="Other" />
-                </RadioGroup>
-              </FormControl>
               <TextField
                 type="email"
                 label="Email"
@@ -214,11 +204,8 @@ const [isLoading, setIsLoading] = useState(false)
               >
                 Register
               </Button>)}
-              <Link to="/home">
-                <Button variant="contained" color="secondary" style={{ marginTop: '10px' }}>
-                  BACK TO DASHBOARD
-                </Button>
-              </Link>
+              <Typography style={{marginTop:"10px"}}>Already have an Account?
+              <Link to='/login'>Login</Link></Typography>
             </form>
             {error && (
               <Typography variant="body2" color="error">
@@ -231,12 +218,8 @@ const [isLoading, setIsLoading] = useState(false)
       </Container>
       <Footer />
     </>
-  ) : (
-    <div style={containerStyle}>
-      <h1>Login as an admin first</h1>
-      <Link to="/">Back to Login</Link>
-    </div>
   );
+    
 };
 
 export default Signup;
