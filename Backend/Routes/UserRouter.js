@@ -9,6 +9,7 @@ router.post('/register', authController.registerUser);
 
 // Route for user login
 router.post('/login', authController.loginUser);
+router.get('/users', authController.getAllUsers);
 
 router.post("/forgot-password1", authController.forgotPassword1)
 

@@ -4,6 +4,7 @@ import { TextField, Button, Container, Typography, CircularProgress } from '@mui
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Footer from '../../components/Footer';
+import DOMPurify from 'dompurify';
 import ResponsiveAppBar from '../../components/AppBar';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
@@ -43,7 +44,11 @@ function PostBlog() {
     } else {
         setIsLoading(true)
       try {
-        const response = await axios.post('https://rewinders-vgdr.vercel.app/api/post/create', blogData);
+        const sanitizedContent = DOMPurify.sanitize(blogData.content);
+        const response = await axios.post('https://rewinders-vgdr.vercel.app/api/post/create', {
+          ...blogData,
+          content: sanitizedContent,
+        });
 
         console.log('Blog post submitted:', response.data);
       
@@ -55,8 +60,8 @@ function PostBlog() {
         // Clear the form fields on successful submission
         setBlogData({
           title: '',
+          author: '',
           content: '',
-          author: ''
         });
         setErrors({
           title: '',
@@ -126,7 +131,7 @@ function PostBlog() {
         />
 
         <ReactQuill
-          theme="snow" // Snow theme is the classic editor
+          theme="snow"
           value={blogData.content}
           onChange={handleContentChange}
           style={{marginTop:"10px", height: '400px'}}

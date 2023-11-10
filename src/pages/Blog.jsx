@@ -1,68 +1,69 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import { Card, CardContent, CardMedia, Grid, Container, Typography } from '@mui/material';
-import Image1 from '../assets/images/control1.jpg'
+import { Container, Typography, Grid, Card } from '@mui/material';
+import BlogCard from '../utils/BlogCard';
 import ResponsiveAppBar from '../components/AppBar';
 import Footer from '../components/Footer';
+import { Link } from 'react-router-dom';
+import Spinner from '../components/spinner';
 
-function Blog() {
+const Blog = () => {
   const [blogs, setBlogs] = useState([]);
+  const [isLoading, setIsLoading] = useState(false)
 
   useEffect(() => {
-    // Fetch blog data from an API
     const fetchBlogData = async () => {
+      setIsLoading(true)
       try {
-        const response = await axios.get('http://localhost:5000/api/post/getAllBlogs'); // Replace the URL with your actual API endpoint
-        setBlogs(response.data); // Assuming response.data is an array of blog posts
+        const response = await axios.get(
+          'https://rewinders-vgdr.vercel.app/api/post/getAllBlogs'
+        );
+        setBlogs(response.data);
+        setIsLoading(false)
       } catch (error) {
         console.error('Failed to fetch blog data:', error);
+        setIsLoading(false)
       }
     };
 
     fetchBlogData();
-  }, []); // Empty dependency array ensures it only runs once after the initial render
+  }, []);
 
-  return (
+  return isLoading ? (<div><Spinner/></div>):(
     <>
-    <ResponsiveAppBar/>
-    <Container style={{marginBottom:"120px"}}>
-      <Typography variant="h3" gutterBottom>
-        Blog Posts
-      </Typography>
-      {blogs.length === 0 ? (
-        <Typography variant="body1" gutterBottom>
-          There are no blogs posted yet.
+      <ResponsiveAppBar />
+      <Container style={{ marginBottom: '120px', maxWidth:"90%", marginTop:"40px" }}>
+        <Typography variant="h3" gutterBottom>
+          Recent Blogs
         </Typography>
-      ) : (
-      <Grid container spacing={3}>
-        {blogs.map((blog) => (
-          <Grid item xs={12} sm={6} md={4} key={blog.id}>
-            <Card>
-              <CardMedia
-                component="img"
-                height="200"
-                image={Image1} // Replace 'blog.image' with the actual image URL
-                alt={blog.title} // Assuming 'title' is a field in the blog data
-              />
-              <CardContent>
-                <Typography variant="h5" gutterBottom>
-                  {blog.title}
-                </Typography>
-                <Typography variant="body2" color="textSecondary" component="p">
-                  {blog.content}
-                </Typography>
-                <Typography variant="caption" color="textSecondary">
-                  Author: {blog.author}
-                </Typography>
-              </CardContent>
-            </Card>
+        {blogs.length === 0 ? (
+          <Typography variant="body1" gutterBottom>
+            There are no blogs posted yet.
+          </Typography>
+        ) : (
+          
+          <Grid container spacing={3}>
+            {blogs.map((blog) => (
+              <Grid item xs={12} sm={6} md={4} key={blog._id}>
+                <Link to={`/blog/${blog._id}`} style={{ textDecoration: 'none' }}>
+                <Card style={{height:"440px"}}>
+                <BlogCard blog={blog} biggerImage={false}  showContent={false} />
+                  <div style={{marginLeft:"20px"}}>
+                    <div style={{marginTop:"10px"}}> <b>{blog.title}</b> </div><br/>
+                    <div><b>Author:</b> {blog.author}</div><br/>
+                    <div><b>CreatedAt:</b> {new Date(blog.date).toDateString()}</div>
+                    </div>
+                </Card>
+                </Link>
+              </Grid>
+            ))}
           </Grid>
-        ))}
-      </Grid>)}
-    </Container>
-    <Footer/>
+          
+        )}
+      </Container>
+      <Footer />
     </>
   );
-}
+};
 
 export default Blog;

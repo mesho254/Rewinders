@@ -29,6 +29,7 @@ const PostBlog = lazy(()=> import('./Admin/Blog/PostBlog'))
 const Blog = lazy(()=> import('./pages/Blog'))
 const QuotationRequest = lazy(()=> import('./components/User/QuotationRequest'))
 const GeneratorInvoice = lazy(()=> import('./components/Repaires/GeneratorRepair'))
+const BlogCard = lazy(()=>import('./utils/BlogCard'))
 
 
 
@@ -45,6 +46,7 @@ const GeneratorInvoice = lazy(()=> import('./components/Repaires/GeneratorRepair
         <Route path="/adminDashboard" element={<AdminPage/>}/>
         <Route path="/postBlog" element={<PostBlog/>}/>
         <Route path="/blogs" element={<Blog/>}/>
+        <Route path="/blog/:id" element={<BlogCard/>}/>
         <Route path="/quotationRequest" element={<QuotationRequest/>}/>
         <Route path="/generatorInvoice" element={<GeneratorInvoice/>}/>
         <Route  path='/signup' element={<Signup />} />
