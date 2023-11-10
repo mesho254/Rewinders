@@ -38,7 +38,7 @@ const BlogCard = ({ showContent = true,biggerImage = false }) => {
       component="img"
       height={biggerImage ? '700' : '200'}
       image={Image1} 
-      alt={blog.title}
+      alt={Image1}
     />
     <CardContent>
       {showContent && (
