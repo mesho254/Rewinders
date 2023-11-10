@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useParams } from 'react-router-dom';
 import { Container, Typography, Card, CardMedia, CardContent, CircularProgress } from '@mui/material';
-import Image1 from '../assets/images/control2.jpg'
 import ResponsiveAppBar from '../components/AppBar';
 
 
@@ -37,8 +36,8 @@ const BlogCard = ({ showContent = true,biggerImage = false }) => {
     <CardMedia
       component="img"
       height={biggerImage ? '700' : '200'}
-      image={Image1} 
-      alt={Image1}
+      image={'https://amclp.com/wp-content/uploads/sites/3/2014/05/ADPM_7281.png'} 
+      alt={blog.title}
     />
     <CardContent>
       {showContent && (
