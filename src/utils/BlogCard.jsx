@@ -31,18 +31,18 @@ const BlogCard = ({ showContent = true,biggerImage = false }) => {
   return isLoading ? (<div><CircularProgress/></div>) :(
     <>
      {showContent && <ResponsiveAppBar />}
-    <>
-      <Container style={{ marginTop: '20px',  }}>
+    
+      <Container style={{ marginTop: '20px'  }}>
       <Card>
     <CardMedia
       component="img"
       height={biggerImage ? '700' : '200'}
-      image={Image1} // Replace with the actual image URL from your blog data
+      image={Image1} 
       alt={blog.title}
     />
     <CardContent>
       {showContent && (
-        <>
+        <div>
       <Typography variant="h5" gutterBottom>
        <b> {blog.title}</b> 
       </Typography>
@@ -52,7 +52,7 @@ const BlogCard = ({ showContent = true,biggerImage = false }) => {
           <Typography variant="caption" color="textSecondary" >
             <b>Date:</b> {new Date(blog.date).toDateString()}<br/>
           </Typography>
-        </>
+        </div>
       )}
           <Typography variant="body2" color="textSecondary" component="p" style={{fontWeight:"bold", fontSize:"34px", marginTop:"30px"}}>
             {blog.content}
@@ -61,8 +61,6 @@ const BlogCard = ({ showContent = true,biggerImage = false }) => {
   </Card>
 
       </Container>
-    </>
-
     </>
   );
 };
