@@ -136,7 +136,7 @@ const About = () => {
     <Container style={{marginBottom:"100px", maxWidth:"90%"}}>
         <div>
           <h2>About Our Company</h2>
-          <p style={{fontSize:"35px", border:"solid 1px", padding:"40px", color:"blue", maxWidth:"100%"}} className={classes.companyDescription}> {companyDescription}</p>
+          <p style={{fontSize:"35px", border:"solid 1px", padding:"40px", color:"blue", maxWidth:"100%", borderRadius:"12px"}} className={classes.companyDescription}> {companyDescription}</p>
         </div>
       <Container>
       <h2>About Our Motors</h2>

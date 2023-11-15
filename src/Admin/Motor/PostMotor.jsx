@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import { Grid, TextField, Button, Container, Typography, CircularProgress } from '@mui/material';
+import { Grid, TextField, Button, Container, Typography, CircularProgress, IconButton } from '@mui/material';
 import axios from 'axios';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Footer from '../../components/Footer';
 import ResponsiveAppBar from '../../components/AppBar';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 
 const PostMotor = () => {
   const [motorData, setMotorData] = useState({
@@ -127,6 +128,11 @@ const PostMotor = () => {
   return isAuthenticated && userRole === 'admin' ? (<>
   <ResponsiveAppBar/>
     <Container style={{marginTop:"50px", marginBottom:"50px"}}>
+    <Link to="/adminDashboard">
+          <IconButton color="primary">
+            <ArrowBackIcon />
+          </IconButton>
+        </Link>
         <ToastContainer/>
         <Typography variant='h3'>Post Motors That You Are Selling</Typography>
     <Grid container spacing={3}>

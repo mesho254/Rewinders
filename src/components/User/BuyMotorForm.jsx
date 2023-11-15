@@ -1,10 +1,13 @@
-import React, { useState } from 'react';
-import { Card, CardContent, TextField, Button, Container, CircularProgress } from '@mui/material';
+import React, { useState} from 'react';
+import { Card, CardContent, TextField, Button, Container, CircularProgress, IconButton } from '@mui/material';
 import Footer from '../Footer';
 import ResponsiveAppBar from '../AppBar';
 import axios from 'axios';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import RedirectPage from '../../hooks/RedirectPage';
+import { Link } from 'react-router-dom';
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 
 // Descriptions for different types of motors
 const motorDescriptions = {
@@ -71,6 +74,7 @@ const BuyMotorForm = () => {
     phase: '',
     frequency: '',
   });
+
 
   const handleScrollToForm = () => {
     const formSection = document.getElementById('formSection');
@@ -164,10 +168,18 @@ const BuyMotorForm = () => {
     }
   };
 
-  return (
+  const isAuthenticated = localStorage.getItem('token') !== null;
+
+
+  return isAuthenticated ? (
     <>
       <ResponsiveAppBar />
       <Container style={{ padding: '20px', marginBottom: '100px' }}>
+      <Link to="/services">
+          <IconButton color="primary">
+            <ArrowBackIcon />
+          </IconButton>
+        </Link>
         <Card>
           <CardContent>
           <Container style={{marginBottom:"50px", borderBottom:"2px solid"}}>
@@ -394,7 +406,7 @@ const BuyMotorForm = () => {
       </Container>
       <Footer />
     </>
-  );
+  ): (<div><RedirectPage/></div>)
 };
 
 export default BuyMotorForm;

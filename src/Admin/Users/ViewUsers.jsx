@@ -10,32 +10,50 @@ import {
   Paper,
   Typography,
   Container,
+  CircularProgress,
+  IconButton,
 } from '@mui/material';
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import ResponsiveAppBar from '../../components/AppBar';
+import {Link} from 'react-router-dom'
+import RedirectPage from '../../hooks/RedirectPage';
 
 function ViewUsers() {
   const [users, setUsers] = useState([]);
+  const [isLoading, setIsLoading] = useState(false)
 
   useEffect(() => {
     const fetchUsers = async () => {
+      setIsLoading(true)
       try {
         const response = await axios.get('https://rewinders-vgdr.vercel.app/api/user/users');
         setUsers(response.data);
+        setIsLoading(false)
       } catch (error) {
         console.error('Failed to fetch users:', error);
+        setIsLoading(false)
       }
     };
 
     fetchUsers();
   }, []);
 
-  return (
+  const isAuthenticated = localStorage.getItem('token') !== null;
+  const userRole = localStorage.getItem('role');
+
+  return isAuthenticated && userRole === 'admin' ? (
     <div>
         <ResponsiveAppBar/>
-        <Container>
+        <Container style={{marginTop:"50px"}}>
+        <Link to="/adminDashboard">
+          <IconButton color="primary">
+            <ArrowBackIcon />
+          </IconButton>
+        </Link>
       <Typography variant="h2" gutterBottom alignItems={'center'}>
         User Details
       </Typography>
+      {isLoading ? (<div><CircularProgress/></div>): (
       <TableContainer component={Paper}>
         <Table>
           <TableHead>
@@ -61,10 +79,10 @@ function ViewUsers() {
             ))}
           </TableBody>
         </Table>
-      </TableContainer>
+      </TableContainer>)}
       </Container>
     </div>
-  );
+  ):(<div><RedirectPage/></div>)
 }
 
 export default ViewUsers;

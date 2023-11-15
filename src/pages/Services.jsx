@@ -8,7 +8,6 @@ import Image2 from '../assets/images/control2.jpg'
 import Image3 from '../assets/images/control3.jpg'
 import Image4 from '../assets/images/control4.jpg'
 import Image5 from '../assets/images/control5.jpg'
-import Image6 from '../assets/images/control6.jpg'
 import Image7 from '../assets/images/generator1.png'
 import Image8 from '../assets/images/generator2.webp'
 import Image9 from '../assets/images/generator3.jpg'
@@ -28,6 +27,14 @@ const handleSell = () =>{
 
 const handleRepair = ()=> {
   navigate('/repair-invoice')
+}
+
+const handleControlRepair = ()=> {
+  navigate('/quotationRequest')
+}
+
+const handleGeneratorRepair = ()=> {
+  navigate('/generatorInvoice')
 }
 
   const cardStyle = {
@@ -57,7 +64,7 @@ const handleRepair = ()=> {
       description: 'Description for motor control 3',
     },
     {
-      image: Image6,
+      image: Image4,
       description: 'Description for motor control 3',
     },
   ];
@@ -125,6 +132,24 @@ const handleRepair = ()=> {
                 Is your motor in need of repair? Our expert technicians are here to bring your motor back to life.
               </p>
               <Button variant='contained' onClick={handleRepair}>Ask For Motor Repair</Button>
+            </CardContent>
+          </Card>
+          <Card style={cardStyle}>
+            <CardContent>
+              <h2>Ask For Control Quotation</h2>
+              <p>
+                Do you need a control for your motor? Our expert technicians are here to bring your motor Control back to life.
+              </p>
+              <Button variant='contained' onClick={handleControlRepair}>Ask For control Quotation</Button>
+            </CardContent>
+          </Card>
+          <Card style={cardStyle}>
+            <CardContent>
+              <h2>Generator Repair</h2>
+              <p>
+                Is your Generator in need of repair? Our expert technicians are here to bring your Generator back to life.
+              </p>
+              <Button variant='contained' onClick={handleGeneratorRepair}>Ask For Generator Repair</Button>
             </CardContent>
           </Card>
           <Link to='/viewMotors'>

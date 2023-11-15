@@ -1,13 +1,16 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import { TextField, Button, Container, Typography, CircularProgress } from '@mui/material';
+import { TextField, Button, Container, Typography, CircularProgress, IconButton } from '@mui/material';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Footer from '../../components/Footer';
 import DOMPurify from 'dompurify';
 import ResponsiveAppBar from '../../components/AppBar';
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
+import { Link } from 'react-router-dom';
+import RedirectPage from '../../hooks/RedirectPage';
 
 function PostBlog() {
   const [blogData, setBlogData] = useState({
@@ -101,10 +104,18 @@ function PostBlog() {
     });
   };
 
-  return (
+  const isAuthenticated = localStorage.getItem('token') !== null;
+  const userRole = localStorage.getItem('role');
+
+  return isAuthenticated && userRole === 'admin' ?  (
     <>
     <ResponsiveAppBar/>
     <Container style={{marginTop:"50px", marginBottom:"100px"}}>
+    <Link to="/adminDashboard">
+          <IconButton color="primary">
+            <ArrowBackIcon />
+          </IconButton>
+        </Link>
       <Typography>Post a Blog</Typography>
       <form onSubmit={handleFormSubmit}>
         <TextField
@@ -145,7 +156,7 @@ function PostBlog() {
     </Container>
     <Footer/>
     </>
-  );
+  ): (<div><RedirectPage/></div>)
 }
 
 export default PostBlog;

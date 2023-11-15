@@ -10,24 +10,18 @@ const AboutUs = () => {
     {
       id: 1,
       title: 'MISSION',
-      content: 'This is the content of the first blog post...',
+      content: 'Our mission is to drive innovation in the field of electric motors, ensuring reliability and efficiency across diverse applications. We are committed to developing cutting-edge solutions that empower industries and enhance everyday life through the transformative power of electric motor technology.',
     },
     {
       id: 2,
       title: 'VISION',
-      content: 'This is the content of the second blog post...',
+      content: 'Our vision is to be a global leader in the advancement of power generation, envisioning a future where generators play a pivotal role in providing sustainable and accessible energy solutions. We strive to set new standards for excellence, shaping the landscape of power generation for generations to come.',
     },
     {
         id: 2,
         title: 'CORE VALUES',
-        content: 'This is the content of the second blog post...',
+        content: 'At our core, we value precision, innovation, and sustainability. Our commitment to quality craftsmanship drives the development of motor control systems that optimize performance and ensure the longevity of electric motors. We uphold environmental responsibility, striving for a harmonious balance between technological progress and ecological consciousness.',
       },
-      {
-        id: 2,
-        title: 'SCHOOL MOTTO',
-        content: 'This is the content of the second blog post...',
-      },
-    // Add more blog posts as needed
   ];
 
   

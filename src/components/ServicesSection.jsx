@@ -13,7 +13,7 @@ const ServicesSection = () => {
             <div className='about-school'>
             <p>Welcome to our motor company! We specialize in providing a wide range of motors for various needs.
               Whether you are looking to buy, sell, or repair a motor, we have you covered with top-notch services.</p>
-            <img src={Image1} alt=''/>
+            <img src={Image1} alt='' className='image'/>
             </div>
             <div className='about-button'>
                 <p>You Can view all available Services Here</p>

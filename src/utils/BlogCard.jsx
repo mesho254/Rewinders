@@ -36,7 +36,7 @@ const BlogCard = ({ showContent = true,biggerImage = false }) => {
     <CardMedia
       component="img"
       height={biggerImage ? '700' : '200'}
-      image={'https://amclp.com/wp-content/uploads/sites/3/2014/05/ADPM_7281.png'} 
+      image='https://www.aeroventfbm.com/wp-content/uploads/2018/09/motor-starter-motor-control-soft-starter-circuit-breaker-1.jpg'
       alt={blog.title}
     />
     <CardContent>

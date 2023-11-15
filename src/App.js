@@ -30,6 +30,11 @@ const Blog = lazy(()=> import('./pages/Blog'))
 const QuotationRequest = lazy(()=> import('./components/User/QuotationRequest'))
 const GeneratorInvoice = lazy(()=> import('./components/Repaires/GeneratorRepair'))
 const BlogCard = lazy(()=>import('./utils/BlogCard'))
+const ViewComments = lazy(()=> import('./Admin/Users/ViewComments'))
+const RedirectPage = lazy(()=> import('./hooks/RedirectPage'))
+const ViewQuotations = lazy(()=> import('./Admin/Motor/ViewQuotations'))
+const NotificationList = lazy(()=> import('./components/NotificationList'))
+
 
 
 
@@ -44,6 +49,8 @@ const BlogCard = lazy(()=>import('./utils/BlogCard'))
         <Route path='/' element={<Home />} />
         
         <Route path="/adminDashboard" element={<AdminPage/>}/>
+        <Route path="/viewComments" element={<ViewComments/>}/>
+        <Route path="/viewQuotations" element={<ViewQuotations/>}/>
         <Route path="/postBlog" element={<PostBlog/>}/>
         <Route path="/blogs" element={<Blog/>}/>
         <Route path="/blog/:id" element={<BlogCard/>}/>
@@ -68,6 +75,8 @@ const BlogCard = lazy(()=>import('./utils/BlogCard'))
         <Route path="/getMotors" element={<AllMotors/>}/>
         <Route path="/viewMotors" element={<ViewMotors/>}/>
         <Route path="/contacts" element={<Contacts/>}/>
+        <Route path="/notifications" element={<NotificationList/>}/>
+        <Route path="/redirect" element={<RedirectPage/>}/>
 
         <Route path='*' element={<Page404/>} />
         

@@ -13,6 +13,7 @@ import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import {styled} from '@mui/material/styles';
 import { useNavigate, Link } from 'react-router-dom';
+import NotificationsIcon from '@mui/icons-material/Notifications';
 
 const ResponsiveTypography = styled(Typography)(({ theme }) => ({
   fontFamily: 'monospace',
@@ -61,6 +62,10 @@ function ResponsiveAppBar() {
 
   const handleAdmin = ()=>{
     history('/adminDashboard')
+  }
+
+  const handleNote = ()=>{
+    history('/notifications')
   }
 
   const handleOpenUserMenu = (event) => {
@@ -225,9 +230,14 @@ function ResponsiveAppBar() {
   </MenuItem>
 ))}
               {isAuthenticated && role === 'admin' ? (
+                 <div>
+                 <MenuItem onClick={handleNote}>
+                 <Typography textAlign="center">Notifications <NotificationsIcon/></Typography>
+                 </MenuItem>
                 <MenuItem onClick={handleAdmin}>
                   <Typography textAlign="center">Admin Dashboard</Typography>
                 </MenuItem>
+                </div>
               ) : null}
 
               {isAuthenticated ? (

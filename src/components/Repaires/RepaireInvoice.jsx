@@ -1,10 +1,12 @@
-import React, { useState } from 'react';
-import { TextField, Button, Grid, Paper, Typography, Container } from '@mui/material';
+import React, { useState, useEffect } from 'react';
+import { TextField, Button, Grid, Paper, Typography, Container, CircularProgress, IconButton } from '@mui/material';
 import axios from 'axios';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import ResponsiveAppBar from '../AppBar';
 import Footer from '../Footer';
+import { useNavigate, Link } from 'react-router-dom';
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 
 const Invoice = () => {
     const initialCustomerInfo = {
@@ -22,6 +24,8 @@ const Invoice = () => {
     
       const [customerInfo, setCustomerInfo] = useState(initialCustomerInfo);
       const [motorInfo, setMotorInfo] = useState(initialMotorInfo);
+      const navigate = useNavigate()
+      const [isLoading, setIsLoading] = useState(false)
     
       const [errors, setErrors] = useState({
         customerName: '',
@@ -75,6 +79,7 @@ const Invoice = () => {
         if (errorDetected) {
           setErrors(newErrors);
         } else {
+          setIsLoading(true)
           axios.post('https://rewinders-vgdr.vercel.app/api/invoices/create', {
             ...customerInfo,
             ...motorInfo,
@@ -93,17 +98,30 @@ const Invoice = () => {
                 repairDetails: '',
                 repairCost: '',
               });
+              setIsLoading(false)
             })
             .catch((error) => {
               toast.error('Failed to send invoice');
+              setIsLoading(false)
             });
         }
       };
+      const isAuthenticated = localStorage.getItem('token') !== null;
+      useEffect(() => {
+        if (!(isAuthenticated)) {
+          navigate('/login'); // Redirect to '/login'
+        }
+      }, [isAuthenticated, navigate]);
       
   return (
     <div>
         <ResponsiveAppBar/>
         <Container style={{marginTop:"50px", marginBottom:"100px"}}>
+        <Link to="/services">
+          <IconButton color="primary">
+            <ArrowBackIcon />
+          </IconButton>
+        </Link>
     <Paper style={{ padding: '20px' }}>
         <ToastContainer /> 
       <Typography variant="h5" gutterBottom style={{alignContent:"center", alignItems:"center"}}>
@@ -189,11 +207,13 @@ const Invoice = () => {
                 helperText={errors.repairCost}
               />
             </Grid>
+            {isAuthenticated ? (
         <Grid item xs={12}>
+          {isLoading ? (<div><CircularProgress/></div>):(
           <Button variant="contained" color="primary" onClick={handleInvoiceSubmission} fullWidth> 
             Send Invoice
-          </Button>
-        </Grid>
+          </Button>)}
+        </Grid>):null}
       </Grid>
     </Paper>
     </Container>

@@ -1,8 +1,13 @@
-import React, { useState } from 'react';
+import React, { useState} from 'react';
 import axios from 'axios';
-import { TextField, Button, Container } from '@mui/material';
+import { TextField, Button, Container, CircularProgress, IconButton } from '@mui/material';
 import Footer from '../Footer';
 import ResponsiveAppBar from '../AppBar';
+import RedirectPage from '../../hooks/RedirectPage';
+import { Link } from 'react-router-dom';
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 function QuotationRequest() {
   const [quotationData, setQuotationData] = useState({
@@ -18,6 +23,9 @@ function QuotationRequest() {
     customerAddress: '',
     message: ''
   });
+
+  const [isLoading, setIsLoading] = useState(false)
+
 
   const handleFormSubmit = async (e) => {
     e.preventDefault();
@@ -37,13 +45,17 @@ function QuotationRequest() {
       setErrors(newErrors);
     } else {
       try {
+        setIsLoading(true)
         const response = await axios.post('https://rewinders-vgdr.vercel.app/api/quotation/create', quotationData);
         console.log('Quotation request submitted:', response.data);
+        toast.success('Quotation request submitted');
         // Assuming success; you might want to add a success message or redirect after a successful submission
         setQuotationData({ customerName: '', customerEmail: '', customerAddress: '', message: '' });
+        setIsLoading(false)
       } catch (error) {
         console.error('Error submitting quotation request:', error);
-        // Handle error, show error message, etc.
+        toast.error('Error submitting quotation request');
+        setIsLoading(false)
       }
     }
   };
@@ -55,10 +67,17 @@ function QuotationRequest() {
     });
   };
 
-  return (
+  const isAuthenticated = localStorage.getItem('token') !== null;
+
+  return isAuthenticated ?  (
     <>
     <ResponsiveAppBar/>
     <Container style={{marginBottom:"100px"}}>
+    <Link to="/services">
+          <IconButton color="primary">
+            <ArrowBackIcon />
+          </IconButton>
+        </Link>
       <h1>SEND QUOTATION REQUEST OF YOUR CONTROL PREFERENCE </h1>
       <form onSubmit={handleFormSubmit}>
         <TextField
@@ -107,14 +126,16 @@ function QuotationRequest() {
           helperText={errors.message}
           style={{marginTop:"10px"}}
         />
+        {isLoading ? (<div><CircularProgress/></div>):(
         <Button type="submit" variant="contained" onClick={handleFormSubmit} fullWidth style={{marginTop:"10px", marginBottom:"100px"}}>
           Submit
-        </Button>
+        </Button>)}
       </form>
     </Container>
+    <ToastContainer/>
     <Footer/>
     </>
-  );
+  ): (<div><RedirectPage/></div>)
 }
 
 export default QuotationRequest;

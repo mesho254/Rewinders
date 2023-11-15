@@ -4,10 +4,12 @@ import { Container, Grid, Card, CardContent, Typography, Button, Dialog,
   DialogTitle,
   DialogContent,
   DialogActions,
-  TextField, } from '@mui/material';
+  TextField, IconButton } from '@mui/material';
 import Spinner from '../spinner';
 import Footer from '../Footer';
 import ResponsiveAppBar from '../AppBar';
+import { Link } from 'react-router-dom';
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 
 const ViewMotors = () => {
   const [motors, setMotors] = useState([]);
@@ -61,6 +63,11 @@ const ViewMotors = () => {
     <>
     <ResponsiveAppBar/>
     <Container style={{marginBottom:"120px", marginTop:"50px"}}>
+    <Link to="/services">
+          <IconButton color="primary">
+            <ArrowBackIcon />
+          </IconButton>
+        </Link>
       <h1>All Motors</h1>
       <Grid container spacing={3}>
         {motors.map((motor) => (

@@ -1,8 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { Container, Grid, Card, CardContent, Typography } from '@mui/material';
+import { Container, Grid, Card, CardContent, Typography, IconButton } from '@mui/material';
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import ResponsiveAppBar from '../../components/AppBar';
 import Footer from '../../components/Footer';
+import { Link } from 'react-router-dom';
+import RedirectPage from '../../hooks/RedirectPage';
 
 const AllMotors = () => {
   const [motors, setMotors] = useState([]);
@@ -10,7 +13,7 @@ const AllMotors = () => {
   useEffect(() => {
     const fetchMotors = async () => {
       try {
-        const response = await axios.get('http://localhost:5000/api/motor/getAllMotors');
+        const response = await axios.get('https://rewinders-vgdr.vercel.app/api/motor/getAllMotors');
         setMotors(response.data);
       } catch (error) {
         console.error('Failed to fetch motors:', error);
@@ -20,10 +23,18 @@ const AllMotors = () => {
     fetchMotors();
   }, []);
 
-  return (
+  const isAuthenticated = localStorage.getItem('token') !== null;
+  const userRole = localStorage.getItem('role');
+
+  return isAuthenticated && userRole === 'admin' ?  (
     <>
     <ResponsiveAppBar/>
     <Container style={{marginBottom:"150px", marginTop:"50px"}}>
+    <Link to="/adminDashboard">
+          <IconButton color="primary">
+            <ArrowBackIcon />
+          </IconButton>
+        </Link>
       <h1>All Motors</h1>
       <Grid container spacing={3}>
         {motors.map((motor) => (
@@ -77,7 +88,7 @@ const AllMotors = () => {
     </Container>
     <Footer/>
     </>
-  );
+  ):(<div><RedirectPage/></div>)
 };
 
 export default AllMotors;

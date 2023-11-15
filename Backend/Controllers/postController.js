@@ -35,3 +35,42 @@ exports.getPostById = async (req, res) => {
     res.status(500).json({ message: 'Failed to retrieve the post' });
   }
 };
+
+
+// Remove a post by ID
+exports.removePost = async (req, res) => {
+  try {
+    const postId = req.params.id;
+    const removedPost = await Post.findByIdAndRemove(postId);
+
+    if (!removedPost) {
+      return res.status(404).json({ message: 'Post not found' });
+    }
+
+    res.status(200).json({ message: 'Post removed successfully' });
+  } catch (err) {
+    res.status(500).json({ message: 'Failed to remove the post' });
+  }
+};
+
+// Update a post by ID
+exports.updatePost = async (req, res) => {
+  try {
+    const postId = req.params.id;
+    const { title, content, author } = req.body;
+
+    const updatedPost = await Post.findByIdAndUpdate(
+      postId,
+      { title, content, author },
+      { new: true } // Return the modified document rather than the original
+    );
+
+    if (!updatedPost) {
+      return res.status(404).json({ message: 'Post not found' });
+    }
+
+    res.status(200).json(updatedPost);
+  } catch (err) {
+    res.status(500).json({ message: 'Failed to update the post' });
+  }
+};

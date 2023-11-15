@@ -19,7 +19,8 @@
     text-align: center;
     padding: 20px 68px;
     border-radius: 12px;
-    margin-left: -20px;
+    margin-left: -40px;
+    
 
 }
 
@@ -28,6 +29,7 @@
     height: 240px;
     border-radius:  12px;
     background-color: #D9D9D9;
+    padding: 10px;
 }
 
 .about-content h2 {
@@ -96,7 +98,7 @@ line-height: normal;
 @media (max-width: 767px) {
     .about-content {
         width: 90%;
-        height: 240px;
+        height: 300px;
         border-radius: 12px;
     }
     .about-section {
@@ -106,7 +108,7 @@ line-height: normal;
 
     .about-post {
         padding: 10px 50px;
-        margin-left: -40px;
+        margin-left: -50px;
     }
 
     .about-school{
